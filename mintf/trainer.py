@@ -43,7 +43,7 @@ class Trainer(object):
     def loss(self, x_test, y_test):
         return self._loss.eval({ self._x: x_test, self._y_: y_test }, self._session)
 
-    def export(self, filename, x_test, y_test):
+    def export(self, filename, x_test=None, y_test=None):
         g = tf.Graph()
         with g.as_default():
             x = tf.placeholder('float', [None] + self._input_shape, name='input')
@@ -56,7 +56,8 @@ class Trainer(object):
             export_dir, export_name = os.path.dirname(filename), os.path.basename(filename)
             tf.train.write_graph(sess.graph.as_graph_def(), export_dir, export_name, as_text=False)
 
-            y_ = tf.placeholder('float', [None] + self._output_shape)
-            print self._metrics_func(y, y_).eval({x: x_test, y_: y_test}, sess)
+            if x_test != None and y_test != None:
+                y_ = tf.placeholder('float', [None] + self._output_shape)
+                print self._metrics_func(y, y_).eval({x: x_test, y_: y_test}, sess)
 
             sess.close()

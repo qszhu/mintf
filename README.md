@@ -20,7 +20,7 @@ trainer.train(tf.train.GradientDescentOptimizer(0.01))
 
 #### Exporting Trained Models
 ```python
-trainer.export('mnist.pb', mnist.test.images, mnist.test.labels)
+trainer.export('mnist.pb')
 ```
 
 #### Predicting Using Trained Models
